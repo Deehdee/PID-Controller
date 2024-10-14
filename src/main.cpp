@@ -1,7 +1,5 @@
 /*
-* Notes Oct 13 2024
-* The PID controller gathers an output, compares it to the input to provide an error, to then provide another output, and so on...
-* The PID library that I grabbed was chosen soley because of download count compared to the legacy PID controller
+* Notes Oct 14 2024
 * MPU6050 was decided to be used for I felt that community support was generally better than the LSM6DS0 (considering the library had a O, not a 0 in the library)
 * Formatted some comments so that each section is seperated by a green text header-comment
 * Copied the code form the MPU6050 example and assigned each acceleration and gryo value to a double value instead of the called value being printed directly.
