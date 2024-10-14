@@ -16,9 +16,9 @@ This project will allow a microcontroller to provide a desired output based on r
 4. When prompted to select a folder to place the repo, go to your platformIO projects folder and place it there.
 
 **Arduino**
-1. Ensure Arduino IDE is up to date
-2. Copy main.cpp file code (or save as an .ino file) and paste it into your Arduino IDE
-3. The following libraries are used for this project and should be installed, or errors will occur:
+ 1. Ensure Arduino IDE is up to date
+ 2. Copy main.cpp file code (or save as an .ino file) and paste it into your Arduino IDE
+ 3. The following libraries are used for this project and should be installed, or errors will occur:
   * PID 1.2.1 by br3ttb
   * MPU6050 2.2.6 by Adafruit
 
