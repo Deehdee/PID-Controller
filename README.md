@@ -11,7 +11,7 @@ This project will allow a microcontroller to provide a desired output based on r
 # Installation
 
 **VSCode**
-1 .Ensure that the PlatformIO extension is installed on VSCode, and that you have the most up to date version.
+1. Ensure that the PlatformIO extension is installed on VSCode, and that you have the most up to date version.
 2. Copy the URL to the github repo [PID-Controller](https://github.com/Deehdee/PID-Controller/tree/main)
 3. In PlatformIO, click "Clone Git Project" and paste the link to the repo.
 4. When prompted to select a folder to place the repo, go to your platformIO projects folder and place it there.
