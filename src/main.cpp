@@ -107,6 +107,7 @@ void setup() {
 
   // Initailize I2C
   Wire.begin();
+  
   // Wait for serial monitor begin 
   while (!Serial){
     Serial.println("Waiting...");
