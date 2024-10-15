@@ -28,8 +28,9 @@ int latPin = 29;
 // Setup gyro/accel
 //TODO: Find the differences between the two MPU variables and their libraries 
 Adafruit_MPU6050 mpu;
-// Probably not going to use sensor for now, the example that I'm following didn't utilize it
-//Adafruit_Sensor *mpu_temp, *mpu_accel, *mpu_gyro; 
+
+//Setup Kalman Filter Variables
+
 
 // *-------------------Functions------------------- //
 //TODO Find out what this function does
@@ -51,8 +52,9 @@ void Compute(){
   lastErr = error;
   lastTime = now;
   //* PID controller needs further programming. kp, ki, and kd have values
+  //Print Time that has passed since in seconds
   Serial.print("Time: ");
-  Serial.println(now);
+  Serial.println(now/1000);
   Serial.println("");
 }
 //TODO Find out what this function does
@@ -77,28 +79,29 @@ void getMPU(){
   double gy = g.gyro.y-0.03;
   double gz = g.gyro.z+0.02;
   
-  Serial.print("Acceleration X: ");
+  // Print Acceleration X,Y,Z;
   Serial.print(ax);
-  Serial.print(", Y: ");
+  Serial.print(", ");
   Serial.print(ay);
-  Serial.print(", Z: ");
+  Serial.print(", ");
   Serial.print(az);
-  Serial.println(" m/s^2");
+  Serial.print(", ");
+  // Acceleration measured in m/s^2
 
-  Serial.print("Rotation X: ");
+  //Serial Rotation X,Y,Z;
   Serial.print(gx);
-  Serial.print(", Y: ");
+  Serial.print(", ");
   Serial.print(gy);
-  Serial.print(", Z: ");
+  Serial.print(", ");
   Serial.print(gz);
-  Serial.println(" rad/s");
+  Serial.print(", ");
+  // Rotation measured in rad/s
 
-  Serial.print("Temperature: ");
+  //Serial Temperature;
   Serial.print(temp.temperature);
-  Serial.println(" degC");
-
-  Serial.println("");
-  delay(10);
+  Serial.println(",");
+  //Temperature measured in degrees celsius
+  delay(100);
   }
 // *-------------------Setup------------------- //
 void setup() {
@@ -107,7 +110,7 @@ void setup() {
 
   // Initailize I2C
   Wire.begin();
-  
+
   // Wait for serial monitor begin 
   while (!Serial){
     Serial.println("Waiting...");
