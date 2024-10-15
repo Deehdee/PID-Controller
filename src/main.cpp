@@ -107,10 +107,11 @@ void setup() {
 
   // Initailize I2C
   Wire.begin();
-
+  // Wait for serial monitor begin 
   while (!Serial){
     Serial.println("Waiting...");
     delay(20);}
+
   // Attach to servos to their respective pins
   longServo.attach(longPin);
   latServo.attach(latPin);
