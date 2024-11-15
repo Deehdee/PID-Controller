@@ -17,16 +17,10 @@
 // *-------------------Includes------------------- //
 #include <Arduino.h> //!Is this one necessary?
 #include <PWMServo.h> // Servo library, PWM library works for Teensy in VSCode
-#include <PID_v1.h> // Custom PID library, in favor of using legacy PID library
 #include <Adafruit_MPU6050.h> // MPU library from Adafruit
 #include <Wire.h> //Library for I2C
-#include <KalmanFilter.h> //!Figure this out
 
 // *-------------------Variables------------------- //
-unsigned long lastTime;
-double input, output, setPoint;
-double errSum, lastErr;
-double kp, ki, kd;
 
 // setup servos 
 PWMServo longServo; // Defines longServo object
@@ -37,46 +31,8 @@ int latPin = 29;
 // Setup gyro/accel
 Adafruit_MPU6050 mpu;
 
-//Setup Kalman Filter Variables
-KalmanFilter kalmanX(0.001, 0.003, 0.03);
-KalmanFilter kalmanY(0.001, 0.003, 0.03);
-
-float accPitch = 0;
-float accRoll = 0;
-
-float kalPitch = 0;
-float kalRoll = 0;
-
 // *-------------------Functions------------------- //
-void Compute(){
-  // How long since last calculated
-  unsigned long now = millis();
-  double timeChange = (double)(now - lastTime);
 
-  // Compute all working error variables
-  double error = setPoint - input;
-  errSum += (error * timeChange);
-  double dErr = (error - lastErr) / timeChange;
-
-  //Compute PID Output
-  output = kp * error + ki * errSum + kd * dErr;  // Initailize I2C
-  Wire.begin();
-
-  //Remember some variables for next cycle
-  lastErr = error;
-  lastTime = now;
-  //* PID controller needs further programming. kp, ki, and kd have values
-  //Print Time that has passed since in seconds
-  Serial.print("Time: ");
-  Serial.println(now/1000);
-  Serial.println("");
-}
-
-void setTunings(double Kp, double Ki, double Kd){
-  kp = Kp;
-  ki = Ki;
-  kd = Kd;
-}
 
 
 // *-------------------MPU6050------------------- //
@@ -85,8 +41,7 @@ void getMPU(){
   sensors_event_t a, g, temp;
    mpu.getEvent(&a, &g, &temp);
   
-  //kalPitch = kalmanY.update(accPitch, gyr.YAxis);
-  //kalRoll = kalmanX.update(accRoll, gyr.XAxis);
+  
 
   // Set values to 
   double ax = a.acceleration.x-0.24;
@@ -129,10 +84,9 @@ void setup() {
   Wire.begin();
 
   // Wait for serial monitor begin 
-  /*while (!Serial){
+  while (!Serial){
     Serial.println("Waiting...");
     delay(20);}
-    */
 
   // Attach to servos to their respective pins
   longServo.attach(longPin);
@@ -151,6 +105,7 @@ void setup() {
     Serial.println("MPU ready!");
     delay(100);
   }
+
   //Configure the MPU
   //These settings can be changed, look at the example for the different configurations
   mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
@@ -162,9 +117,5 @@ void setup() {
 // *-------------------Loop------------------- //
 void loop() {
   getMPU();
-  Compute();
-  longServo.write(90);
-  delay(1000);
-  longServo.write(0);
-  delay(1000);
+
 }
