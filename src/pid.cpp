@@ -1,4 +1,4 @@
-//! WIP
+//! WIP Entire file set as comment to prevent conflict, tons of unused and undeclared variables
 //* This file is to help organize and clean up the process of writing the PID Controller. The goal is to keep the main 
 //* and pid files seperate if possible.
 #include <Arduino.h>

@@ -21,7 +21,7 @@
 #include <Wire.h> //Library for I2C
 
 // *-------------------Variables------------------- //
-
+#define PI 3.1415926535897932384626433832795
 // setup servos 
 PWMServo longServo; // Defines longServo object
 PWMServo latServo; // Defines latServo object
@@ -39,17 +39,15 @@ Adafruit_MPU6050 mpu;
 void getMPU(){
 /* Get new sensor events with the readings */
   sensors_event_t a, g, temp;
-   mpu.getEvent(&a, &g, &temp);
-  
-  
+   mpu.getEvent(&a, &g, &temp);  
 
   // Set values to 
   double ax = a.acceleration.x-0.24;
   double ay = a.acceleration.y+0.19;
   double az = a.acceleration.z+0.46;
-  double gx = g.gyro.x;
-  double gy = g.gyro.y-0.03;
-  double gz = g.gyro.z+0.02;
+  double gx = (g.gyro.x)*(180/PI); // 180/PI converts radians to degrees
+  double gy = (g.gyro.y-0.03)*(180/PI);
+  double gz = (g.gyro.z+0.02)*(180/PI);
   
   // Print Acceleration X,Y,Z;
   Serial.print(ax);
@@ -67,13 +65,18 @@ void getMPU(){
   Serial.print(", ");
   Serial.print(gz);
   Serial.print(", ");
-  // Rotation measured in rad/s
+  // Rotation measured in degrees/s
 
   //Serial Temperature;
   Serial.print(temp.temperature);
-  Serial.println(",");
+  Serial.print(",");
   //Temperature measured in degrees celsius
   delay(100);
+  double latPosition;
+  latPosition = map(ax, -16, 16, 0, 180);
+  latServo.write(latPosition);
+  Serial.print(latPosition);
+  Serial.println(",");
   }
 // *-------------------Setup------------------- //
 void setup() {
