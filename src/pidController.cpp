@@ -21,7 +21,6 @@ void Compute(){
   //Remember some variables for next cycle
   lastErr = error;
   lastTime = now;
-  //* PID controller needs further programming. kp, ki, and kd have values
   //Print Time that has passed since in seconds
   Serial.print("Time: ");
   Serial.println(now/1000);
@@ -34,3 +33,12 @@ void setTunings(double Kp, double Ki, double Kd){
   kd = Kd;
 }
 */
+#ifndef PID_H
+#define PID_H
+
+void pidTest() {
+  Serial.print("Test successful");
+  while(1);
+}
+
+#endif

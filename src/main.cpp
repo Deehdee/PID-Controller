@@ -1,13 +1,3 @@
-/*
-* Notes Oct 14 2024
-* MPU6050 was decided to be used for I felt that community support was generally better than the LSM6DS0 (considering the library had a O, not a 0 in the library)
-* Formatted some comments so that each section is seperated by a green text header-comment
-* Copied the code form the MPU6050 example and assigned each acceleration and gryo value to a double value instead of the called value being printed directly.
-* Code currently runs at a delay of 300 mills, idealy, the code will run with a shorter delay for the PID controller to be accurate
-* Solved an issue where servos were not communicating with Teensy.
-* -When using Arduino IDE, servo behave normally using Servo.h library, but not when using VSCode
-* -When using PWMServo.h library, servos behave normally
-*/
 //TODO: Find the differences between the two MPU variables and their libraries 
 //TODO Find out what Compute() function does
 //TODO Find out what tsetTunings() function does
@@ -19,6 +9,7 @@
 #include <PWMServo.h> // Servo library, PWM library works for Teensy in VSCode
 #include <Adafruit_MPU6050.h> // MPU library from Adafruit
 #include <Wire.h> //Library for I2C
+#include <pidController.cpp>
 
 // *-------------------Variables------------------- //
 #define PI 3.1415926535897932384626433832795
@@ -119,6 +110,6 @@ void setup() {
 }
 // *-------------------Loop------------------- //
 void loop() {
-  getMPU();
-
+  //getMPU();
+  pidTest();
 }
