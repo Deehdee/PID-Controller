@@ -1,7 +1,5 @@
 //TODO: Find the differences between the two MPU variables and their libraries 
-//TODO Find out what Compute() function does
 //TODO Find out what tsetTunings() function does
-//TODO Research how to calculate gains for PID Controller
 //TODO Impliment Kalman Filter - one that works properly
 
 // *-------------------Includes------------------- //
@@ -9,10 +7,11 @@
 #include <PWMServo.h> // Servo library, PWM library works for Teensy in VSCode
 #include <Adafruit_MPU6050.h> // MPU library from Adafruit
 #include <Wire.h> //Library for I2C
-#include <pidController.cpp>
 
 // *-------------------Variables------------------- //
 #define PI 3.1415926535897932384626433832795
+float angleRoll  = 0;
+float anglePitch = 0;
 // setup servos 
 PWMServo longServo; // Defines longServo object
 PWMServo latServo; // Defines latServo object
@@ -30,15 +29,16 @@ Adafruit_MPU6050 mpu;
 void getMPU(){
 /* Get new sensor events with the readings */
   sensors_event_t a, g, temp;
-   mpu.getEvent(&a, &g, &temp);  
-
+  mpu.getEvent(&a, &g, &temp);  
   // Set values to 
   double ax = a.acceleration.x-0.24;
   double ay = a.acceleration.y+0.19;
   double az = a.acceleration.z+0.46;
-  double gx = (g.gyro.x)*(180/PI); // 180/PI converts radians to degrees
-  double gy = (g.gyro.y-0.03)*(180/PI);
-  double gz = (g.gyro.z+0.02)*(180/PI);
+  double gx = (g.gyro.x);
+  double gy = (g.gyro.y-0.03);
+  double gz = (g.gyro.z+0.02);
+  angleRoll = atan((ay)/(sqrt((ax*ax)+(az*az))))*1/(3.14159/180);
+  anglePitch = -atan((ax)/(sqrt((ay*ay)+(az*az))))/(3.14159/180);
   
   // Print Acceleration X,Y,Z;
   Serial.print(ax);
@@ -56,7 +56,11 @@ void getMPU(){
   Serial.print(", ");
   Serial.print(gz);
   Serial.print(", ");
-  // Rotation measured in degrees/s
+  // Angle measured in degrees/s
+  Serial.print(angleRoll);
+  Serial.print(", ");
+  Serial.print(anglePitch);
+  Serial.print(", ");
 
   //Serial Temperature;
   Serial.print(temp.temperature);
@@ -110,6 +114,6 @@ void setup() {
 }
 // *-------------------Loop------------------- //
 void loop() {
-  //getMPU();
-  pidTest();
+  getMPU();
+  delay(500);
 }
