@@ -72,6 +72,7 @@ void getMPU(){
   latServo.write(latPosition);
   Serial.print(latPosition);
   Serial.println(",");
+  delay(500);
   }
 // *-------------------Setup------------------- //
 void setup() {
@@ -115,5 +116,5 @@ void setup() {
 // *-------------------Loop------------------- //
 void loop() {
   getMPU();
-  delay(500);
+  
 }
